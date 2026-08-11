@@ -1,0 +1,287 @@
+.heroSection,
+.purposeSection,
+.philosophySection,
+.futureSection,
+.bookSection,
+.closingSection {
+  --story-divider: rgb(31 31 31 / 0.14);
+}
+
+.heroSection {
+  padding: 5rem 0 5.5rem;
+}
+
+.heroGrid,
+.purposeGrid,
+.futureGrid,
+.bookGrid {
+  display: grid;
+  gap: 3rem;
+}
+
+.heroCopy {
+  min-width: 0;
+  opacity: 0;
+  animation: editorial-reveal 280ms var(--site-ease-editorial) 40ms forwards;
+}
+
+.heroAside {
+  max-width: 34rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--story-divider);
+  opacity: 0;
+  animation: editorial-reveal 300ms var(--site-ease-editorial) 100ms forwards;
+}
+
+.branchDivider {
+  width: 4.5rem;
+  opacity: 0.18;
+}
+
+.branchDivider {
+  margin-top: 3rem;
+}
+
+.branchDivider img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.purposeSection,
+.philosophySection,
+.futureSection,
+.bookSection {
+  padding-block: 5.5rem;
+}
+
+.purposeSection,
+.futureSection {
+  border-block: 1px solid var(--story-divider);
+  background: var(--site-surface);
+}
+
+.purposeCopy {
+  max-width: 40rem;
+  color: var(--site-text-muted);
+  font-size: 1rem;
+  line-height: 2rem;
+}
+
+.beliefStatement {
+  margin-top: 3rem;
+  padding: 2rem 0 0 1.5rem;
+  border-top: 1px solid var(--story-divider);
+  border-left: 1px solid var(--site-text);
+}
+
+.philosophyIntro {
+  max-width: 42rem;
+}
+
+.philosophyGrid {
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: 1.25rem;
+  margin-top: 3.5rem;
+}
+
+.philosophyGrid > * {
+  height: 100%;
+}
+
+.philosophyCard {
+  display: flex;
+  height: 100%;
+  min-height: 19rem;
+  padding: 2rem;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid var(--site-border);
+  background: var(--site-surface);
+  transition:
+    transform var(--transition-base) var(--site-ease-editorial),
+    box-shadow var(--transition-base) var(--site-ease-editorial);
+}
+
+.philosophyCard:hover {
+  transform: translateY(-0.1875rem);
+  box-shadow: var(--site-shadow-soft);
+}
+
+.futureCopy {
+  max-width: 39rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--story-divider);
+}
+
+.bookStage {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 31rem);
+  margin-inline: auto;
+  transform: perspective(82rem) rotateY(-2.5deg) rotateX(0.4deg);
+  transform-origin: center right;
+}
+
+.bookObject {
+  position: relative;
+  z-index: 1;
+  width: calc(100% - 0.65rem);
+  transition:
+    transform var(--transition-base) var(--site-ease-editorial),
+    filter var(--transition-base) var(--site-ease-editorial);
+}
+
+.bookObject::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0.4rem -0.58rem -0.55rem 0.4rem;
+  border: 1px solid rgb(31 31 31 / 0.24);
+  background: #e8e4de;
+  box-shadow: 0 10px 24px rgb(31 31 31 / 0.08);
+  content: "";
+}
+
+.bookImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgb(31 31 31 / 0.5);
+  box-shadow:
+    0 30px 66px rgb(31 31 31 / 0.16),
+    0 8px 18px rgb(31 31 31 / 0.08);
+}
+
+.bookStage:hover .bookObject {
+  transform: translateY(-0.1875rem);
+  filter: drop-shadow(0 12px 16px rgb(31 31 31 / 0.1));
+}
+
+.bookCopy {
+  align-self: center;
+}
+
+.closingSection {
+  padding-block: 6rem;
+  border-top: 1px solid var(--story-divider);
+  background: var(--site-surface);
+}
+
+@keyframes editorial-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 40rem) {
+  .heroSection {
+    padding: 6.5rem 0 7rem;
+  }
+
+  .purposeSection,
+  .philosophySection,
+  .futureSection,
+  .bookSection {
+    padding-block: 6.75rem;
+  }
+
+  .philosophyGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .philosophyCard {
+    min-height: 21rem;
+    padding: 2.25rem;
+  }
+
+  .closingSection {
+    padding-block: 7.5rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .heroGrid {
+    grid-template-columns: minmax(0, 1.25fr) minmax(20rem, 0.75fr);
+    gap: 6rem;
+    align-items: end;
+  }
+
+  .purposeGrid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(24rem, 0.9fr);
+    gap: 7rem;
+    align-items: start;
+  }
+
+  .futureGrid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(25rem, 1.1fr);
+    gap: 7rem;
+    align-items: center;
+  }
+
+  .bookGrid {
+    grid-template-columns: minmax(24rem, 0.9fr) minmax(0, 1.1fr);
+    gap: 7rem;
+    align-items: center;
+  }
+
+  .heroSection {
+    padding: 7.5rem 0 8rem;
+  }
+
+  .purposeSection,
+  .philosophySection,
+  .futureSection,
+  .bookSection {
+    padding-block: 7.5rem;
+  }
+
+  .philosophyGrid {
+    gap: 1.5rem;
+    margin-top: 4rem;
+  }
+
+  .philosophyCard {
+    min-height: 21rem;
+    padding: 2.5rem;
+  }
+
+  .closingSection {
+    padding-block: 8rem;
+  }
+}
+
+@media (max-width: 39.99rem) {
+  .bookStage {
+    width: min(86vw, 29rem);
+  }
+}
+
+@media (hover: none) {
+  .philosophyCard:hover,
+  .bookStage:hover .bookObject {
+    transform: none;
+    filter: none;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroCopy,
+  .heroAside {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .philosophyCard,
+  .bookObject {
+    transition: none;
+  }
+}

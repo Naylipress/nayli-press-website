@@ -1,0 +1,95 @@
+.heroSection {
+  padding: 5rem 0 5.5rem;
+}
+
+.heroCopy {
+  opacity: 0;
+  animation: editorial-reveal 280ms var(--site-ease-editorial) 40ms forwards;
+}
+
+.contactSection {
+  padding-block: 5.5rem;
+  border-block: 1px solid var(--site-border);
+  background: var(--site-surface);
+}
+
+.contactGrid {
+  display: grid;
+  gap: 4.5rem;
+}
+
+.purchaseSection {
+  padding-block: 6rem;
+}
+
+.directContact {
+  align-self: start;
+  padding-top: 2rem;
+  border-top: 1px solid var(--site-border);
+}
+
+.branchDivider {
+  width: 4.5rem;
+  margin-top: 3rem;
+  opacity: 0.18;
+}
+
+.branchDivider img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@keyframes editorial-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 40rem) {
+  .heroSection {
+    padding: 6.5rem 0 7rem;
+  }
+
+  .contactSection {
+    padding-block: 6.75rem;
+  }
+
+  .purchaseSection {
+    padding-block: 7.5rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .heroSection {
+    padding: 7.5rem 0 8rem;
+  }
+
+  .contactSection {
+    padding-block: 7.5rem;
+  }
+
+  .purchaseSection {
+    padding-block: 8.5rem;
+  }
+
+  .contactGrid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(22rem, 0.75fr);
+    gap: 8rem;
+    align-items: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroCopy {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}

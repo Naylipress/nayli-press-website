@@ -1,0 +1,150 @@
+.heroSection {
+  padding-block: 5rem;
+}
+
+.featuredSection {
+  padding-block: 5.5rem;
+}
+
+.missionSection {
+  padding: 10rem 0 6rem;
+}
+
+.missionContent {
+  position: relative;
+  top: -1.25rem;
+}
+
+.heroCopy {
+  opacity: 0;
+  animation: editorial-reveal 280ms var(--site-ease-editorial) 40ms forwards;
+}
+
+.heroVisual {
+  opacity: 0;
+  animation: editorial-reveal 300ms var(--site-ease-editorial) 80ms forwards;
+}
+
+.bookStage {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 38rem);
+  margin-inline: auto;
+}
+
+.bookObject {
+  position: relative;
+  z-index: 1;
+  width: calc(100% - 0.7rem);
+  transition:
+    transform var(--transition-base) var(--site-ease-editorial),
+    filter var(--transition-base) var(--site-ease-editorial);
+}
+
+.bookObject::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0.4rem -0.62rem -0.58rem 0.42rem;
+  border: 1px solid rgb(31 31 31 / 0.24);
+  background: #e8e4de;
+  box-shadow: 0 10px 24px rgb(31 31 31 / 0.08);
+  content: "";
+}
+
+.bookImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgb(31 31 31 / 0.5);
+  box-shadow:
+    0 34px 72px rgb(31 31 31 / 0.16),
+    0 9px 20px rgb(31 31 31 / 0.09);
+}
+
+.heroBook {
+  transform: perspective(82rem) rotateY(-3.5deg) rotateX(0.7deg);
+  transform-origin: center right;
+}
+
+.bookStage:hover .bookObject {
+  transform: translateY(-0.1875rem);
+  filter: drop-shadow(0 12px 16px rgb(31 31 31 / 0.1));
+}
+
+.logoBranch {
+  display: block;
+  width: 4.5rem;
+  height: auto;
+  opacity: 0.18;
+}
+
+.missionDivider {
+  display: flex;
+  width: 4.5rem;
+  margin: 2.75rem auto 0;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes editorial-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(0.65rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 40rem) {
+  .heroSection {
+    padding-block: 7rem;
+  }
+
+  .featuredSection {
+    padding-block: 7rem;
+  }
+
+  .missionSection {
+    padding: 12rem 0 8rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .heroSection,
+  .featuredSection {
+    padding-block: 8rem;
+  }
+
+  .missionSection {
+    padding: 13.5rem 0 9rem;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .bookStage {
+    width: min(100%, 31rem);
+  }
+}
+
+@media (hover: none) {
+  .bookStage:hover .bookObject {
+    transform: none;
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroCopy,
+  .heroVisual {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .bookObject {
+    transition: none;
+  }
+}
