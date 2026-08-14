@@ -25,8 +25,8 @@ export const metadata: Metadata = {
   },
   description: siteConfig.tagline,
   icons: {
-    icon: [{ url: siteConfig.logoPath, type: "image/png" }],
-    apple: [{ url: siteConfig.logoPath, type: "image/png" }],
+    icon: [{ url: siteConfig.logoPath, type: "image/jpeg" }],
+    apple: [{ url: siteConfig.logoPath, type: "image/jpeg" }],
   },
   openGraph: {
     siteName: siteConfig.name,

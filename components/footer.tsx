@@ -16,10 +16,10 @@ export function Footer() {
             aria-label={`${siteConfig.name} home`}
           >
             <Image
-              src={siteConfig.logoPath}
+              src={siteConfig.footerLogoPath}
               alt="Nayli Press logo"
-              width={856}
-              height={625}
+              width={1156}
+              height={808}
               className="h-auto w-28 object-contain"
             />
           </Link>

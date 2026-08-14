@@ -35,7 +35,7 @@ export function Navbar({
           onClick={closeMenu}
         >
           <Image
-            src={siteConfig.navbarLogoPath}
+            src={siteConfig.logoPath}
             alt="Nayli Press logo"
             width={1156}
             height={808}
