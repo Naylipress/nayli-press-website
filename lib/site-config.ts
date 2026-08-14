@@ -4,6 +4,7 @@ export const siteConfig = {
   tagline: "Books for curious little minds",
   contactEmail: "hello@naylipress.com",
   logoPath: "/images/nayli-press-logo-transparent.png",
+  navbarLogoPath: "/images/nayli-press-header-logo.jpeg",
   logoBranchPath: "/images/nayli-press-logo-branch.png",
   socialImagePath: "/images/nayli-press-logo-transparent.png",
   navigation: [
