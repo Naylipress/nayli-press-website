@@ -1,12 +1,12 @@
 import { siteConfig } from "@/lib/site-config";
 
-const provider =
-  process.env.CONTACT_PROVIDER === "formspree" ? "formspree" : "disabled";
-
 export const contactConfig = {
-  provider,
+  provider: "netlify",
+  formName: "contact",
+  submissionEndpoint: "/netlify-forms.html",
   recipientEmail: siteConfig.contactEmail,
-  formspreeEndpoint: process.env.FORMSPREE_ENDPOINT ?? "",
   minimumMessageLength: 10,
   maximumMessageLength: 5000,
+  successMessage: "Thank you for getting in touch. We’ll get back to you soon.",
+  errorMessage: "Something went wrong. Please try again or email",
 } as const;

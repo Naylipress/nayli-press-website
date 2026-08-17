@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { contactConfig } from "@/lib/contact-config";
 
 type FieldName = "name" | "email" | "message";
 type FieldErrors = Partial<Record<FieldName, string>>;
-type FormStatus = "idle" | "loading" | "success" | "error";
+type FormStatus =
+  "idle" | "loading" | "success" | "validation-error" | "submission-error";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -24,14 +26,15 @@ function validateForm(formData: FormData) {
     errors.email = "Please enter a valid email address";
   }
 
-  if (message.length < 10) {
-    errors.message = "Please write at least 10 characters";
+  if (message.length < contactConfig.minimumMessageLength) {
+    errors.message = `Please write at least ${contactConfig.minimumMessageLength} characters`;
   }
 
-  return { errors, name, email, message };
+  return errors;
 }
 
 export function ContactForm() {
+  const isSubmitting = useRef(false);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<FormStatus>("idle");
   const [statusMessage, setStatusMessage] = useState("");
@@ -39,51 +42,54 @@ export function ContactForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    if (isSubmitting.current) {
+      return;
+    }
+
     const form = event.currentTarget;
     const formData = new FormData(form);
-    const { errors, name, email, message } = validateForm(formData);
+    const errors = validateForm(formData);
 
     setFieldErrors(errors);
     setStatusMessage("");
 
     if (Object.keys(errors).length > 0) {
-      setStatus("error");
+      setStatus("validation-error");
       setStatusMessage("Please review the highlighted fields");
       return;
     }
 
+    isSubmitting.current = true;
     setStatus("loading");
 
     try {
-      const response = await fetch("/api/contact", {
+      const encodedFormData = new URLSearchParams();
+
+      for (const [fieldName, fieldValue] of formData.entries()) {
+        if (typeof fieldValue === "string") {
+          encodedFormData.append(fieldName, fieldValue);
+        }
+      }
+
+      const response = await fetch(contactConfig.submissionEndpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          message,
-          company: String(formData.get("company") ?? ""),
-        }),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encodedFormData.toString(),
       });
-      const result = (await response.json()) as { message?: string };
 
       if (!response.ok) {
-        throw new Error(result.message || "Your message could not be sent");
+        throw new Error(contactConfig.errorMessage);
       }
 
       form.reset();
       setFieldErrors({});
       setStatus("success");
-      setStatusMessage(
-        result.message || "Thank you — your message has been sent",
-      );
-    } catch (error) {
-      setStatus("error");
-      setStatusMessage(
-        error instanceof Error
-          ? error.message
-          : "Your message could not be sent",
-      );
+      setStatusMessage(contactConfig.successMessage);
+    } catch {
+      setStatus("submission-error");
+      setStatusMessage("");
+    } finally {
+      isSubmitting.current = false;
     }
   }
 
@@ -93,11 +99,18 @@ export function ContactForm() {
 
   return (
     <form
+      name={contactConfig.formName}
+      method="POST"
+      action={contactConfig.submissionEndpoint}
+      data-netlify="true"
+      {...{ "netlify-honeypot": "company" }}
       noValidate
       onSubmit={handleSubmit}
       className="space-y-8"
       aria-busy={status === "loading"}
     >
+      <input type="hidden" name="form-name" value={contactConfig.formName} />
+
       <div>
         <label htmlFor="name" className="mb-3 block text-sm font-medium">
           Name
@@ -151,8 +164,8 @@ export function ContactForm() {
           id="message"
           name="message"
           required
-          minLength={10}
-          maxLength={5000}
+          minLength={contactConfig.minimumMessageLength}
+          maxLength={contactConfig.maximumMessageLength}
           rows={6}
           aria-invalid={Boolean(fieldErrors.message)}
           aria-describedby={errorId("message")}
@@ -186,10 +199,23 @@ export function ContactForm() {
         </Button>
         <p
           className="min-h-6 text-sm leading-6 text-text-muted"
-          role={status === "error" ? "alert" : "status"}
+          role={status.includes("error") ? "alert" : "status"}
           aria-live="polite"
         >
-          {statusMessage}
+          {status === "submission-error" ? (
+            <>
+              {contactConfig.errorMessage}{" "}
+              <a
+                href={`mailto:${contactConfig.recipientEmail}`}
+                className="underline decoration-1 underline-offset-4 transition-colors duration-fast hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text motion-reduce:transition-none"
+              >
+                {contactConfig.recipientEmail}
+              </a>
+              .
+            </>
+          ) : (
+            statusMessage
+          )}
         </p>
       </div>
     </form>
